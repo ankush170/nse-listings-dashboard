@@ -97,7 +97,7 @@ const FinancialScreener: React.FC = () => {
         </table>
       </div>
       <div className="mb-6 p-4 border rounded-lg">
-        <p>Details from AI analysis including all public info: The company's Gross NPA ratio has been steadily increasing over the past 5 years, indicating potential issues with asset quality and credit risk management.</p>
+        <p>The company&apos;s Gross NPA ratio has been steadily increasing over the past 5 years, indicating potential issues with asset quality and credit risk management.</p>
       </div>
 
       {/* Announcement Section */}
@@ -166,7 +166,7 @@ const FinancialScreener: React.FC = () => {
                 <div className="p-2 bg-yellow-100 border border-yellow-300 rounded mt-2">
                   <p>Highlighted Section: Section 302 - Corporate Responsibility for Financial Reports</p>
                 </div>
-                <p className="mt-2">Rationale: The company's increasing NPA ratio and declining profitability raise concerns about the accuracy and completeness of financial reporting, potentially violating the CEO/CFO certification requirements under SOX Section 302.</p>
+                <p className="mt-2">Rationale: The company&apos;s increasing NPA ratio and declining profitability raise concerns about the accuracy and completeness of financial reporting, potentially violating the CEO/CFO certification requirements under SOX Section 302.</p>
               </div>
             </div>
           </div>
