@@ -1,4 +1,3 @@
-// src/components/Graph.tsx
 'use client';
 
 import { useState } from 'react';
@@ -21,9 +20,9 @@ export function Graph() {
   });
 
   return (
-    <div className="bg-gray-800 p-6 rounded-lg shadow-md w-full relative z-0">
+    <div className="bg-white p-6 shadow-md w-full relative z-0">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-semibold text-gray-100">Overall Weighted Risk Score Graph</h2>
+        <h2 className="text-xl font-semibold text-[#8117DE]">Overall Weighted Risk Score Graph</h2>
         <div className="space-x-4">
           {Object.entries(factors).map(([key, value]) => (
             <label key={key} className="inline-flex items-center">
@@ -31,9 +30,9 @@ export function Graph() {
                 type="checkbox"
                 checked={value}
                 onChange={() => setFactors({ ...factors, [key]: !value })}
-                className="form-checkbox h-5 w-5 text-blue-600"
+                className="form-checkbox h-5 w-5 text-[#8117DE]"
               />
-              <span className="ml-2 text-gray-100">{key}</span>
+              <span className="ml-2 text-gray-700">{key}</span>
             </label>
           ))}
         </div>
@@ -44,7 +43,7 @@ export function Graph() {
           <XAxis dataKey="name" />
           <YAxis />
           <Tooltip />
-          <Line type="monotone" dataKey="score" stroke="#3b82f6" strokeWidth={2} />
+          <Line type="monotone" dataKey="score" stroke="#8117DE" strokeWidth={2} />
         </LineChart>
       </ResponsiveContainer>
     </div>

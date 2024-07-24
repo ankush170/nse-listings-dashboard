@@ -1,4 +1,3 @@
-// src/components/Navigation.tsx
 'use client';
 
 import Link from 'next/link';
@@ -17,18 +16,25 @@ export function Navigation() {
   const pathname = usePathname();
 
   return (
-    <nav className="bg-blue-600 mt-8 rounded-lg shadow-md">
-      <ul className="flex justify-between px-4 py-2">
-        {navItems.map((item) => (
-          <li key={item.name}>
-            <Link href={item.path}>
-              <span className={`text-white hover:text-blue-200 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${pathname === item.path ? 'bg-blue-700' : ''}`}>
+    <nav className="bg-white shadow-md w-full mt-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between py-3">
+          {navItems.map((item) => (
+            <Link key={item.name} href={item.path}>
+              <span className={`
+                inline-flex items-center px-4 py-2 rounded-full text-sm font-medium 
+                transition-all duration-200 ease-in-out shadow-md
+                ${pathname === item.path
+                  ? 'bg-[#8117DE] text-white'
+                  : 'bg-purple-100 text-[#8117DE] hover:bg-purple-200 hover:shadow-lg'
+                }
+              `}>
                 {item.name}
               </span>
             </Link>
-          </li>
-        ))}
-      </ul>
+          ))}
+        </div>
+      </div>
     </nav>
   );
 }
