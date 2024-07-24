@@ -145,7 +145,7 @@ const FinancialScreener: React.FC = () => {
         </div>
         <div className="mb-6 p-4 border border-purple-200 rounded-lg bg-purple-50">
           <p className="text-purple-800">
-            The company's Gross NPA ratio has been steadily increasing over the
+            The company&apos;s Gross NPA ratio has been steadily increasing over the
             past 5 years, indicating potential issues with asset quality and
             credit risk management.
           </p>
@@ -257,7 +257,7 @@ const FinancialScreener: React.FC = () => {
                     </p>
                   </div>
                   <p className="mt-2">
-                    Rationale: The company's increasing NPA ratio and declining
+                    Rationale: The company&apos;s increasing NPA ratio and declining
                     profitability raise concerns about the accuracy and
                     completeness of financial reporting, potentially violating
                     the CEO/CFO certification requirements under SOX Section
