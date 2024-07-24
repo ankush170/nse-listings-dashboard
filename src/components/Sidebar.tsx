@@ -4,6 +4,15 @@ import { useState } from 'react';
 import { MagnifyingGlassCircleIcon, CurrencyDollarIcon } from '@heroicons/react/24/outline';
 import { useSidebar } from '../context/SidebarContext';
 
+interface Company {
+    id: string;
+    name: string;
+    alerts: number;
+    discoveries: number;
+    flagged: number;
+    lastRefresh: Date;
+}
+
 export function Sidebar() {
     const { isOpen, setIsOpen } = useSidebar();
 

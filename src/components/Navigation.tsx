@@ -1,40 +1,44 @@
 'use client';
 
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { useState } from 'react';
 
 const navItems = [
-  { name: "Urgent Alerts", path: "/urgent-alerts" },
-  { name: "Financials Raw", path: "/financials-raw" },
-  { name: "Rules", path: "/rules" },
-  { name: "AI Discovery", path: "/ai-discovery" },
-  { name: "Announcements", path: "/announcements" },
-  { name: "Active Litigation", path: "/active-litigation" }
+  { name: "Rules", key: "rules" },
+  { name: "Urgent Alerts", key: "urgent-alerts" },
+  { name: "Financials Raw", key: "financials-raw" },
+  { name: "AI Discovery", key: "ai-discovery" },
+  { name: "Announcements", key: "announcements" }
 ];
 
-export function Navigation() {
-  const pathname = usePathname();
+interface NavigationProps {
+  activeTab: string;
+  setActiveTab: (key: string) => void;
+}
 
+export function Navigation({ activeTab, setActiveTab }: NavigationProps) {
   return (
-    <nav className="bg-white shadow-md w-full mt-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between py-3">
+    <nav className="bg-gradient-to-r from-purple-700 to-indigo-800 shadow-lg w-full mt-8">
+      <div className="max-w-7xl mx-auto">
+        <div className="flex justify-between">
           {navItems.map((item) => (
-            <Link key={item.name} href={item.path}>
-              <span className={`
-                inline-flex items-center px-4 py-2 rounded-full text-sm font-medium 
-                transition-all duration-200 ease-in-out shadow-md
-                ${pathname === item.path
-                  ? 'bg-[#8117DE] text-white'
-                  : 'bg-purple-100 text-[#8117DE] hover:bg-purple-200 hover:shadow-lg'
+            <button
+              key={item.key}
+              onClick={() => setActiveTab(item.key)}
+              className={`
+                flex-1 text-center py-4 text-lg font-semibold tracking-wide
+                transition-all duration-300 ease-in-out
+                ${activeTab === item.key
+                  ? 'bg-white text-purple-800 border-b-4 border-purple-500'
+                  : 'text-white hover:bg-purple-600 hover:text-white'
                 }
-              `}>
-                {item.name}
-              </span>
-            </Link>
+              `}
+            >
+              {item.name}
+            </button>
           ))}
         </div>
       </div>
+      {/* <div className="h-1 bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500"></div> */}
     </nav>
   );
 }
