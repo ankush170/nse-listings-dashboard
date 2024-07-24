@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { MagnifyingGlassCircleIcon } from '@heroicons/react/24/solid';
+import { MagnifyingGlassCircleIcon, CurrencyDollarIcon } from '@heroicons/react/24/outline';
 import { useSidebar } from '../context/SidebarContext';
 
 export function Sidebar() {
@@ -19,10 +19,11 @@ export function Sidebar() {
             onMouseLeave={() => setIsOpen(false)}
         >
             <div className="h-full flex flex-col">
-                <div className="p-4">
+                <div className="p-4 flex items-center">
                     <img src="/onfilogo.svg" alt="Logo" width={40} height={40} className='rounded-full'/>
+                    {isOpen && <span className="ml-2 text-white font-semibold">Onfinance AI</span>}
                 </div>
-                {isOpen && (
+                {isOpen ? (
                     <div className="p-6 flex-1 overflow-y-auto">
                         <div className="relative mb-6">
                             <input
@@ -35,7 +36,10 @@ export function Sidebar() {
                         <div className="space-y-4">
                             {companies.map((company) => (
                                 <div key={company.name} className="bg-gradient-to-br from-purple-400 via-purple-500 to-purple-600 rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow duration-300">
-                                    <h3 className="text-lg font-semibold text-white">{company.name}</h3>
+                                    <h3 className="text-lg font-semibold text-white flex items-center">
+                                        <CurrencyDollarIcon className="h-5 w-5 mr-2 text-white" />
+                                        {company.name}
+                                    </h3>
                                     <div className="mt-2 flex flex-col justify-between text-sm text-purple-100">
                                         <span>{company.alerts} Alerts</span>
                                         <span>{company.discoveries} AI Discoveries</span>
@@ -47,6 +51,11 @@ export function Sidebar() {
                                 </div>
                             ))}
                         </div>
+                    </div>
+                ) : (
+                    <div className="flex-1 flex flex-col items-center pt-6 space-y-6">
+                        <MagnifyingGlassCircleIcon className="h-8 w-8 text-purple-200" />
+                        <CurrencyDollarIcon className="h-8 w-8 text-purple-200" />
                     </div>
                 )}
             </div>
