@@ -1,34 +1,159 @@
 // FinancialScreenerContent.tsx
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { RulesTab } from './tabs/RulesTab';
 import { UrgentAlertsTab } from './tabs/UrgentAlertsTab';
 import { FinancialsRawTab } from './tabs/FinancialsRawTab';
 import { AIDiscoveryTab } from './tabs/AIDiscoveryTab';
 import { AnnouncementsTab } from './tabs/AnnouncementsTab';
 import { HardcodedData } from '../types';
+import { Sidebar } from './Sidebar';
+import { Graph } from './Graph';
 
 const hardcodedData = {
     rules: [
-      {
-        id: '1',
-        name: '%NPA (Numeric)',
-        type: 'Numeric',
-        author: 'Radhalaxmi Pillai',
-        activeTriggers: 3,
-        activeSince: '3 weeks',
-        description: 'Gross NPA / Order Book > 11%',
-        sources: ['financials.gross_npa', 'financials.order_book'],
-      },
-    ],
-    urgentAlerts: [
-      {
-        id: '1',
-        name: 'Rule Triggered',
-        triggeredAt: '2023-07-15 14:30:00',
-        priceImpact1D: -2.5,
-        priceImpact7D: -4.8,
-      },
-    ],
+        {
+          id: '1',
+          name: '%NPA (Numeric)',
+          type: 'Numeric',
+          author: 'Radhalaxmi Pillai',
+          activeTriggers: 3,
+          activeSince: '3 weeks',
+          description: 'Gross NPA / Order Book > 11%',
+          sources: ['financials.gross_npa', 'financials.order_book'],
+        },
+        {
+          id: '2',
+          name: 'High Related Party Transactions',
+          type: 'Financial Health',
+          author: 'System',
+          activeTriggers: 2,
+          activeSince: '2023-07-20',
+          description: 'Related party transactions > 75% of revenue',
+          sources: ['financials.related_party_transactions', 'financials.revenue'],
+        },
+        {
+          id: '3',
+          name: 'High Off-Balance Sheet Items',
+          type: 'Financial Health',
+          author: 'System',
+          activeTriggers: 1,
+          activeSince: '2023-07-20',
+          description: 'Off-balance sheet items > 75% of net worth',
+          sources: ['financials.off_balance_sheet_items', 'financials.net_worth'],
+        },
+        {
+          id: '4',
+          name: 'High Investment in Unlisted Companies',
+          type: 'Investment Risk',
+          author: 'System',
+          activeTriggers: 0,
+          activeSince: '2023-07-20',
+          description: 'Investment in unlisted companies > 20% of net worth',
+          sources: ['financials.unlisted_investments', 'financials.net_worth'],
+        },
+        {
+          id: '5',
+          name: 'High Extraordinary Items',
+          type: 'Financial Performance',
+          author: 'System',
+          activeTriggers: 0,
+          activeSince: '2023-07-20',
+          description: 'Extraordinary items > 20% of sales',
+          sources: ['financials.extraordinary_items', 'financials.sales'],
+        },
+        {
+          id: '6',
+          name: 'High Promoter Holding Encumbrance',
+          type: 'Shareholding',
+          author: 'System',
+          activeTriggers: 0,
+          activeSince: '2023-07-20',
+          description: 'Encumbrance of promoter shareholding > 75%',
+          sources: ['financials.promoter_shareholding', 'financials.encumbrance'],
+        },
+        {
+          id: '7',
+          name: 'Abrupt Management Changes',
+          type: 'Governance',
+          author: 'System',
+          activeTriggers: 0,
+          activeSince: '2023-07-20',
+          description: 'More than 3 auditor resignations in 4 years or more than 7 director resignations in 3 years',
+          sources: ['corporate.governance', 'corporate.management_changes'],
+        },
+        {
+          id: '8',
+          name: 'High Debt Levels',
+          type: 'Financial Risk',
+          author: 'System',
+          activeTriggers: 0,
+          activeSince: '2023-07-20',
+          description: 'Debt to equity ratio > 1',
+          sources: ['financials.debt', 'financials.equity'],
+        },
+        {
+          id: '9',
+          name: 'Negative Cash Flow from Operations',
+          type: 'Liquidity Risk',
+          author: 'System',
+          activeTriggers: 0,
+          activeSince: '2023-07-20',
+          description: 'Negative cash flow from operations',
+          sources: ['financials.cash_flow_operations'],
+        },
+        {
+          id: '10',
+          name: 'Interest Service Coverage Ratio',
+          type: 'Financial Health',
+          author: 'System',
+          activeTriggers: 0,
+          activeSince: '2023-07-20',
+          description: 'Interest service coverage ratio < 1',
+          sources: ['financials.interest_service_coverage'],
+        }
+      ],
+      urgentAlerts: [
+        {
+          id: '1',
+          name: 'High NPA Ratio',
+          triggeredAt: '2023-07-15 14:30:00',
+          description: 'Gross NPA Ratio increased to 12.7% in FY22-23, exceeding the threshold of 11%.',
+          priceImpact1D: -2.5,
+          priceImpact7D: -4.8,
+        },
+        {
+          id: '2',
+          name: 'High Related Party Transactions',
+          triggeredAt: '2023-07-16 09:00:00',
+          description: 'Related party transactions exceeded 75% of total revenue, indicating potential governance risks.',
+          priceImpact1D: -1.5,
+          priceImpact7D: -3.2,
+        },
+        {
+          id: '3',
+          name: 'Off-Balance Sheet Exposure',
+          triggeredAt: '2023-07-17 10:30:00',
+          description: 'Off-balance sheet items represent more than 75% of the company\'s net worth, posing significant financial risks.',
+          priceImpact1D: -2.0,
+          priceImpact7D: -3.5,
+        },
+        {
+          id: '4',
+          name: 'Negative Cash Flow',
+          triggeredAt: '2023-07-18 11:45:00',
+          description: 'The company reported negative cash flow from operations, indicating liquidity concerns.',
+          priceImpact1D: -1.8,
+          priceImpact7D: -3.0,
+        },
+        {
+          id: '5',
+          name: 'High Extraordinary Items',
+          triggeredAt: '2023-07-19 14:00:00',
+          description: 'Extraordinary items accounted for more than 20% of sales, raising questions about the consistency of financial performance.',
+          priceImpact1D: -2.3,
+          priceImpact7D: -4.0,
+        },
+      ],
     financials: [
       {
         id: '1',
@@ -500,9 +625,7 @@ const hardcodedData = {
       },
       {
         id: '40',
-        name:
-
- 'Pledged promoter holding last year',
+        name:'Pledged promoter holding last year',
         values: {
           'FY18-19': '0%',
           'FY19-20': '0%',
@@ -848,12 +971,62 @@ const hardcodedData = {
         ],
       },
     ],
-  };
+};
 
 const hardcodedData1 = {
     rules: [
       {
         id: '1',
+        name: 'Monitor Revenue YoY Growth for Q2',
+        type: 'Financial Performance',
+        author: '',
+        activeTriggers: 0,
+        activeSince: '2023-10-26',
+        description: 'Revenue YoY Growth > 8.5',
+        sources: ['Revenue YoY Growth'],
+      },
+      {
+        id: '2',
+        name: 'Track Consumer Business YoY Growth for Q2',
+        type: 'Market Position',
+        author: '',
+        activeTriggers: 0,
+        activeSince: '2023-10-26',
+        description: 'Consumer Business Growth > 0.5',
+        sources: ['Consumer Business Growth'],
+      },
+      {
+        id: '3',
+        name: 'Monitor Technology & Services Decline for Q2',
+        type: 'Operational Efficiency',
+        author: '',
+        activeTriggers: 0,
+        activeSince: '2023-10-26',
+        description: 'Technology & Services Growth < -2.0',
+        sources: ['Technology & Services Growth'],
+      },
+      {
+        id: '4',
+        name: 'Track Communication & Media Sector Performance',
+        type: 'Market Position',
+        author: '',
+        activeTriggers: 0,
+        activeSince: '2023-10-26',
+        description: 'Communication & Media Growth < -1.5',
+        sources: ['Communication & Media Growth'],
+      },
+      {
+        id: '5',
+        name: 'Monitor Energy, Resources, and Utilities Growth for Q2',
+        type: 'Financial Performance',
+        author: '',
+        activeTriggers: 0,
+        activeSince: '2023-10-26',
+        description: 'Energy, Resources, and Utilities Growth > 5.0',
+        sources: ['Energy, Resources, and Utilities Growth'],
+      },
+      {
+        id: '6',
         name: '%NPA (Numeric)',
         type: 'Numeric',
         author: 'Radhalaxmi Pillai',
@@ -861,6 +1034,16 @@ const hardcodedData1 = {
         activeSince: '3 weeks',
         description: 'Gross NPA / Order Book > 11%',
         sources: ['financials.gross_npa', 'financials.order_book'],
+      },
+      {
+        id: '7',
+        name: 'NPA Trend Monitoring',
+        type: 'Financial Performance',
+        author: 'AI System',
+        activeTriggers: 0,
+        activeSince: '2023-07-25',
+        description: 'Gross NPA Ratio increase > 1% QoQ OR Gross NPA Ratio increase for 3 consecutive quarters',
+        sources: ['financials.gross_npa', 'financials.total_assets', 'financials.quarterly_reports'],
       },
     ],
     urgentAlerts: [
@@ -875,6 +1058,38 @@ const hardcodedData1 = {
     financials: [
       {
         id: '1',
+        name: 'Market Cap',
+        values: {
+          '2023': '₹ 15,13,790 Cr.',
+        },
+        aiInsights: "TCS's market capitalization indicates its strong position in the market.",
+      },
+      {
+        id: '2',
+        name: 'Current Price',
+        values: {
+          '2023': '₹ 4,184',
+        },
+        aiInsights: "The current stock price reflects market perception and investor sentiment.",
+      },
+      {
+        id: '3',
+        name: 'P/E Ratio',
+        values: {
+          '2023': 31.8,
+        },
+        aiInsights: "A P/E ratio of 31.8 suggests that investors are willing to pay more for each unit of earnings, indicating high growth expectations.",
+      },
+      {
+        id: '4',
+        name: 'Book Value',
+        values: {
+          '2023': '₹ 250',
+        },
+        aiInsights: "The book value per share provides an indication of the company's asset base relative to its stock price.",
+      },
+      {
+        id: '5',
         name: 'Gross NPA Ratio',
         values: {
           'FY18-19': '8.5%',
@@ -884,6 +1099,14 @@ const hardcodedData1 = {
           'FY22-23': '12.7%',
         },
         aiInsights: "The company's Gross NPA ratio has been steadily increasing over the past 5 years, indicating potential issues with asset quality and credit risk management.",
+      },
+      {
+        id: '6',
+        name: 'Revenue YoY Growth',
+        values: {
+          'Q2 FY24': '9%',
+        },
+        aiInsights: "The company's overall revenue for Q2 of FY24 showed an increase of 9% compared to the same quarter last year, indicating positive financial performance and growth.",
       },
     ],
     discoveries: [
@@ -899,7 +1122,7 @@ const hardcodedData1 = {
         ],
         proposedRules: [
           {
-            id: '1',
+            id: '7',
             type: 'NPA Trend Monitoring',
             description: 'Monitor quarterly changes in Gross NPA Ratio. Flag if the ratio increases by more than 1% in a single quarter or shows consistent increase for 3 consecutive quarters.',
             sources: ['financials.gross_npa', 'financials.total_assets', 'financials.quarterly_reports'],
@@ -910,6 +1133,104 @@ const hardcodedData1 = {
     announcements: [
       {
         id: '1',
+        title: 'TCS Earnings Call Q2 FY24',
+        publishedOn: '2023-10-26',
+        sentiment: 'Positive',
+        priceImpact: {
+          oneDay: null,
+          sevenDay: null,
+          thirtyDay: null,
+        },
+        claims: [
+          {
+            id: '1',
+            title: 'Revenue up 9% YoY in Q2 FY24',
+            validTill: '2024-10-25',
+            importance: 'High',
+            relevantPerson: 'CEO',
+            sentiment: 'Positive',
+            relevantMetrics: ['Revenue YoY Growth'],
+            proposedRules: [
+              {
+                id: '1',
+                type: 'Financial Performance',
+                description: 'Monitor Revenue YoY Growth for Q2',
+                sources: ['Revenue YoY Growth'],
+              },
+            ],
+          },
+          {
+            id: '2',
+            title: 'Consumer Business Growth up 1.0% YoY in Q2 FY24',
+            validTill: '2024-10-25',
+            importance: 'Medium',
+            relevantPerson: 'CFO',
+            sentiment: 'Neutral',
+            relevantMetrics: ['Consumer Business Growth'],
+            proposedRules: [
+              {
+                id: '2',
+                type: 'Market Position',
+                description: 'Track Consumer Business YoY Growth for Q2',
+                sources: ['Consumer Business Growth'],
+              },
+            ],
+          },
+          {
+            id: '3',
+            title: 'Technology & Services Decline by -2.2% YoY in Q2 FY24',
+            validTill: '2024-10-25',
+            importance: 'High',
+            relevantPerson: 'COO',
+            sentiment: 'Negative',
+            relevantMetrics: ['Technology & Services Growth'],
+            proposedRules: [
+              {
+                id: '3',
+                type: 'Operational Efficiency',
+                description: 'Monitor Technology & Services Decline for Q2',
+                sources: ['Technology & Services Growth'],
+              },
+            ],
+          },
+          {
+            id: '4',
+            title: 'Communication & Media Decline by -2.1% YoY in Q2 FY24',
+            validTill: '2024-10-25',
+            importance: 'Medium',
+            relevantPerson: 'CSO',
+            sentiment: 'Negative',
+            relevantMetrics: ['Communication & Media Growth'],
+            proposedRules: [
+              {
+                id: '4',
+                type: 'Market Position',
+                description: 'Track Communication & Media Sector Performance',
+                sources: ['Communication & Media Growth'],
+              },
+            ],
+          },
+          {
+            id: '5',
+            title: 'Energy, Resources, and Utilities up 5.6% YoY in Q2 FY24',
+            validTill: '2024-10-25',
+            importance: 'High',
+            relevantPerson: 'EVP',
+            sentiment: 'Positive',
+            relevantMetrics: ['Energy, Resources, and Utilities Growth'],
+            proposedRules: [
+              {
+                id: '5',
+                type: 'Financial Performance',
+                description: 'Monitor Energy, Resources, and Utilities Growth for Q2',
+                sources: ['Energy, Resources, and Utilities Growth'],
+              },
+            ],
+          },
+        ],
+      },
+      {
+        id: '2',
         title: 'Q4 Earnings Release',
         publishedOn: '2023-04-15',
         sentiment: 'Negative',
@@ -928,48 +1249,66 @@ const hardcodedData1 = {
             sentiment: 'Negative',
             relevantMetrics: ['financials.net_profit', 'financials.revenue'],
             proposedRules: [
-                {
-                  id: '1',
-                  type: 'NPA Trend Monitoring',
-                  description: 'Monitor quarterly changes in Gross NPA Ratio. Flag if the ratio increases by more than 1% in a single quarter or shows consistent increase for 3 consecutive quarters.',
-                  sources: ['financials.gross_npa', 'financials.total_assets', 'financials.quarterly_reports'],
-                },
-              ],
+              {
+                id: '7',
+                type: 'NPA Trend Monitoring',
+                description: 'Monitor quarterly changes in Gross NPA Ratio. Flag if the ratio increases by more than 1% in a single quarter or shows consistent increase for 3 consecutive quarters.',
+                sources: ['financials.gross_npa', 'financials.total_assets', 'financials.quarterly_reports'],
+              },
+            ],
           },
         ],
       },
     ],
-  };
+};
 
 interface FinancialScreenerContentProps {
   activeTab: string;
 }
+
 export function FinancialScreenerContent({ activeTab }: FinancialScreenerContentProps) {
   const [data, setData] = useState<HardcodedData | null>(null);
+  const [selectedCompany, setSelectedCompany] = useState('PNCINFRA');
 
   useEffect(() => {
-    setData(hardcodedData as HardcodedData);
+    const selectedData = selectedCompany === 'PNCINFRA' ? hardcodedData : hardcodedData1;
+    setData(selectedData as HardcodedData);
+  }, [selectedCompany]);
+
+  const handleCompanySelect = useCallback((companyName: string) => {
+    setSelectedCompany(companyName);
   }, []);
 
   if (!data) {
     return null;
   }
 
-  switch (activeTab) {
-    case 'rules':
-      return <RulesTab rules={data.rules} />;
-    case 'urgent-alerts':
-      return <UrgentAlertsTab alerts={data.urgentAlerts} />;
-    case 'financials-raw':
-      return <FinancialsRawTab financials={data.financials} />;
-    case 'ai-discovery':
-      return <AIDiscoveryTab discoveries={data.discoveries} />;
-    case 'announcements':
-      return <AnnouncementsTab announcements={data.announcements} />;
-    default:
-      return <RulesTab rules={data.rules} />;
-  }
-}
+  const renderActiveTab = () => {
+    switch (activeTab) {
+      case 'rules':
+        return <RulesTab rules={data.rules} />;
+      case 'urgent-alerts':
+        return <UrgentAlertsTab alerts={data.urgentAlerts} />;
+      case 'financials-raw':
+        return <FinancialsRawTab financials={data.financials} />;
+      case 'ai-discovery':
+        return <AIDiscoveryTab discoveries={data.discoveries} />;
+      case 'announcements':
+        return <AnnouncementsTab announcements={data.announcements} />;
+      default:
+        return <RulesTab rules={data.rules} />;
+    }
+  };
 
+  return (
+    <div className="flex">
+      <Sidebar onCompanySelect={handleCompanySelect} />
+      <div className="flex-1 p-8">
+        <Graph selectedCompany={selectedCompany} />
+        {renderActiveTab()}
+      </div>
+    </div>
+  );
+}
 
 
