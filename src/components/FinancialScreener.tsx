@@ -9,10 +9,7 @@ export function FinancialScreener() {
 
   return (
     <div className="bg-white rounded-lg shadow-lg">
-      <Navigation activeTab={activeTab} setActiveTab={setActiveTab} />
-      <div className="p-6">
-        <FinancialScreenerContent activeTab={activeTab} />
-      </div>
+      <FinancialScreenerContent activeTab={activeTab} setActiveTab={setActiveTab} />
     </div>
   );
 }

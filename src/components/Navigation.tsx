@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 
 const navItems = [
   { name: "Rules", key: "rules" },
@@ -38,7 +37,6 @@ export function Navigation({ activeTab, setActiveTab }: NavigationProps) {
           ))}
         </div>
       </div>
-      {/* <div className="h-1 bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500"></div> */}
     </nav>
   );
 }

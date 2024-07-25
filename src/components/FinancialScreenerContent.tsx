@@ -8,6 +8,7 @@ import { AnnouncementsTab } from './tabs/AnnouncementsTab';
 import { HardcodedData } from '../types';
 import { Sidebar } from './Sidebar';
 import { Graph } from './Graph';
+import { Navigation } from './Navigation';
 
 const hardcodedData = {
     rules: [
@@ -1263,52 +1264,56 @@ const hardcodedData1 = {
 };
 
 interface FinancialScreenerContentProps {
-  activeTab: string;
-}
-
-export function FinancialScreenerContent({ activeTab }: FinancialScreenerContentProps) {
-  const [data, setData] = useState<HardcodedData | null>(null);
-  const [selectedCompany, setSelectedCompany] = useState('PNCINFRA');
-
-  useEffect(() => {
-    const selectedData = selectedCompany === 'PNCINFRA' ? hardcodedData : hardcodedData1;
-    setData(selectedData as HardcodedData);
-  }, [selectedCompany]);
-
-  const handleCompanySelect = useCallback((companyName: string) => {
-    setSelectedCompany(companyName);
-  }, []);
-
-  if (!data) {
-    return null;
+    activeTab: string;
+    setActiveTab: (key: string) => void;
   }
-
-  const renderActiveTab = () => {
-    switch (activeTab) {
-      case 'rules':
-        return <RulesTab rules={data.rules} />;
-      case 'urgent-alerts':
-        return <UrgentAlertsTab alerts={data.urgentAlerts} />;
-      case 'financials-raw':
-        return <FinancialsRawTab financials={data.financials} />;
-      case 'ai-discovery':
-        return <AIDiscoveryTab discoveries={data.discoveries} />;
-      case 'announcements':
-        return <AnnouncementsTab announcements={data.announcements} />;
-      default:
-        return <RulesTab rules={data.rules} />;
+  
+  export function FinancialScreenerContent({ activeTab, setActiveTab }: FinancialScreenerContentProps) {
+    const [data, setData] = useState<HardcodedData | null>(null);
+    const [selectedCompany, setSelectedCompany] = useState('PNCINFRA');
+  
+    useEffect(() => {
+      const selectedData = selectedCompany === 'PNCINFRA' ? hardcodedData : hardcodedData1;
+      setData(selectedData as HardcodedData);
+    }, [selectedCompany]);
+  
+    const handleCompanySelect = useCallback((companyName: string) => {
+      setSelectedCompany(companyName);
+    }, []);
+  
+    if (!data) {
+      return null;
     }
-  };
-
-  return (
-    <div className="flex">
-      <Sidebar onCompanySelect={handleCompanySelect} />
-      <div className="flex-1 p-8">
-        <Graph selectedCompany={selectedCompany} />
-        {renderActiveTab()}
+  
+    const renderActiveTab = () => {
+      switch (activeTab) {
+        case 'rules':
+          return <RulesTab rules={data.rules} />;
+        case 'urgent-alerts':
+          return <UrgentAlertsTab alerts={data.urgentAlerts} />;
+        case 'financials-raw':
+          return <FinancialsRawTab financials={data.financials} />;
+        case 'ai-discovery':
+          return <AIDiscoveryTab discoveries={data.discoveries} />;
+        case 'announcements':
+          return <AnnouncementsTab announcements={data.announcements} />;
+        default:
+          return <RulesTab rules={data.rules} />;
+      }
+    };
+  
+    return (
+      <div className="flex">
+        <Sidebar onCompanySelect={handleCompanySelect} />
+        <div className="flex-1">
+          <Graph selectedCompany={selectedCompany} />
+          <Navigation activeTab={activeTab} setActiveTab={setActiveTab} />
+          <div className="p-8">
+            {renderActiveTab()}
+          </div>
+        </div>
       </div>
-    </div>
-  );
-}
+    );
+  }
 
 
