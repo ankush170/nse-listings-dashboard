@@ -17,7 +17,7 @@ export function Sidebar() {
     const { isOpen, setIsOpen } = useSidebar();
 
     const [companies] = useState([
-        { name: 'Infosys', alerts: 5, discoveries: 3, flagged: 2, lastRefresh: new Date() },
+        { name: 'PNCINFRA', alerts: 5, discoveries: 3, flagged: 2, lastRefresh: new Date() },
         { name: 'TCS', alerts: 2, discoveries: 1, flagged: 0, lastRefresh: new Date() },
     ]);
 

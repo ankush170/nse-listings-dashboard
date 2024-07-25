@@ -6,6 +6,23 @@ interface AnnouncementsTabProps {
   announcements: Announcement[];
 }
 
+const getColorForValue = (value: number) => {
+  if (value < 0) return 'text-red-600';
+  if (value > 0) return 'text-green-600';
+  return 'text-blue-600';
+};
+
+const getSentimentColor = (sentiment: string) => {
+  switch (sentiment.toLowerCase()) {
+    case 'positive':
+      return 'bg-green-100 text-green-800';
+    case 'negative':
+      return 'bg-red-100 text-red-800';
+    default:
+      return 'bg-blue-100 text-blue-800';
+  }
+};
+
 export function AnnouncementsTab({ announcements }: AnnouncementsTabProps) {
   const [expandedAnnouncements, setExpandedAnnouncements] = useState<{ [key: string]: boolean }>({});
   const [expandedClaims, setExpandedClaims] = useState<{ [key: string]: boolean }>({});
@@ -33,7 +50,7 @@ export function AnnouncementsTab({ announcements }: AnnouncementsTabProps) {
           >
             <span className="font-bold text-purple-800">{announcement.title}</span>
             <div className="flex items-center">
-              <span className="bg-red-100 text-red-800 px-2 py-1 rounded mr-2">
+              <span className={`px-2 py-1 rounded mr-2 ${getSentimentColor(announcement.sentiment)}`}>
                 {announcement.sentiment}
               </span>
               <span className="text-purple-800">
@@ -44,10 +61,16 @@ export function AnnouncementsTab({ announcements }: AnnouncementsTabProps) {
           {expandedAnnouncements[announcement.id] && (
             <div className="p-4 bg-white">
               <p className="text-purple-800">Published On: {announcement.publishedOn}</p>
-              <div className="flex justify-between my-2 text-purple-800">
-                <span>1 day price impact: {announcement.priceImpact.oneDay}%</span>
-                <span>7 day price impact: {announcement.priceImpact.sevenDay}%</span>
-                <span>30 day price impact: {announcement.priceImpact.thirtyDay}%</span>
+              <div className="flex justify-between my-2">
+                <span className={getColorForValue(announcement.priceImpact.oneDay ?? 0)}>
+                  1 day price impact: {announcement.priceImpact.oneDay ?? 0}%
+                </span>
+                <span className={getColorForValue(announcement.priceImpact.sevenDay ?? 0)}>
+                  7 day price impact: {announcement.priceImpact.sevenDay ?? 0}%
+                </span>
+                <span className={getColorForValue(announcement.priceImpact.thirtyDay ?? 0)}>
+                  30 day price impact: {announcement.priceImpact.thirtyDay ?? 0}%
+                </span>
               </div>
               <h4 
                 className="font-bold mt-4 text-purple-800 cursor-pointer"
@@ -87,11 +110,15 @@ export function AnnouncementsTab({ announcements }: AnnouncementsTabProps) {
                     </div>
                   ))}
                 </div>
-              ))}
-            </div>
-          )}
-        </div>
-      ))}
-    </div>
-  );
+          ))}
+          </div>
+        )}
+      </div>
+    ))}
+  </div>
+);
 }
+
+
+
+

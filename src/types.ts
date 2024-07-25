@@ -61,9 +61,9 @@ export interface Rule {
     publishedOn: string;
     sentiment: string;
     priceImpact: {
-      oneDay: number;
-      sevenDay: number;
-      thirtyDay: number;
+      oneDay: number | null;
+      sevenDay: number | null;
+      thirtyDay: number | null;
     };
     claims: Claim[];
   }

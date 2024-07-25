@@ -24,11 +24,23 @@ const data = [
 
 export function Graph() {
   const [factors, setFactors] = useState({
-    factor1: true,
-    factor2: true,
-    factor3: false,
+    factor1: { selected: true, weight: 50 },
+    factor2: { selected: true, weight: 50 },
+    factor3: { selected: false, weight: 50 },
   });
   const [showFactors, setShowFactors] = useState(false);
+
+  const handleFactorChange = (key: string, field: 'selected' | 'weight', value: boolean | number) => {
+    setFactors(prev => ({
+      ...prev,
+      [key]: { ...prev[key as keyof typeof prev], [field]: value }
+    }));
+  };
+
+  const saveFactors = () => {
+    console.log('Saving factors:', factors);
+    setShowFactors(false);
+  };
 
   return (
     <div className="bg-white p-6 shadow-md w-full relative z-0">
@@ -46,18 +58,39 @@ export function Graph() {
               Adjust factors
             </button>
             {showFactors && (
-              <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10">
-                {Object.entries(factors).map(([key, value]) => (
-                  <label key={key} className="block px-4 py-2 hover:bg-gray-100">
-                    <input
-                      type="checkbox"
-                      checked={value}
-                      onChange={() => setFactors({ ...factors, [key]: !value })}
-                      className="form-checkbox h-5 w-5 text-[#8117DE] mr-2"
-                    />
-                    <span className="text-gray-700">{key}</span>
-                  </label>
+              <div className="absolute right-0 mt-2 w-72 bg-white rounded-md shadow-lg z-10 p-4">
+                {Object.entries(factors).map(([key, { selected, weight }]) => (
+                  <div key={key} className="mb-4">
+                    <label className="flex items-center justify-between">
+                      <span className="text-gray-700 mr-2">{key}</span>
+                      <input
+                        type="checkbox"
+                        checked={selected}
+                        onChange={(e) => handleFactorChange(key, 'selected', e.target.checked)}
+                        className="form-checkbox h-5 w-5 text-[#8117DE]"
+                      />
+                    </label>
+                    {selected && (
+                      <div className="mt-2 flex items-center">
+                        <input
+                          type="range"
+                          min="0"
+                          max="100"
+                          value={weight}
+                          onChange={(e) => handleFactorChange(key, 'weight', parseInt(e.target.value))}
+                          className="w-full mr-2"
+                        />
+                        <span className="text-sm text-gray-600">{weight}</span>
+                      </div>
+                    )}
+                  </div>
                 ))}
+                <button 
+                  onClick={saveFactors}
+                  className="w-full px-4 py-2 bg-[#8117DE] text-white rounded-md hover:bg-purple-700 transition duration-300 ease-in-out"
+                >
+                  Save
+                </button>
               </div>
             )}
           </div>
