@@ -43,6 +43,12 @@ export interface Rule {
     updates: string[];
     proposedRules: ProposedRule[];
   }
+
+  export interface Violation {
+    violated_clause: string;
+    rationale: string;
+    relevant_pageno: string;
+  }
   
   export interface Claim {
     id: string;
@@ -66,6 +72,7 @@ export interface Rule {
       thirtyDay: number | null;
     };
     claims: Claim[];
+    violations: Violation[];
   }
   
   export interface HardcodedData {

@@ -1,6 +1,6 @@
 // AnnouncementsTab.tsx
 import React, { useState } from 'react';
-import { Announcement } from '../../types';
+import { Announcement, Violation } from '../../types';
 
 interface AnnouncementsTabProps {
   announcements: Announcement[];
@@ -27,6 +27,7 @@ export function AnnouncementsTab({ announcements }: AnnouncementsTabProps) {
   const [expandedAnnouncements, setExpandedAnnouncements] = useState<{ [key: string]: boolean }>({});
   const [expandedClaims, setExpandedClaims] = useState<{ [key: string]: boolean }>({});
   const [expandedRules, setExpandedRules] = useState<{ [key: string]: boolean }>({});
+  const [expandedViolations, setExpandedViolations] = useState<{ [key: string]: boolean }>({});
 
   const toggleAnnouncement = (id: string) => {
     setExpandedAnnouncements(prev => ({ ...prev, [id]: !prev[id] }));
@@ -39,6 +40,33 @@ export function AnnouncementsTab({ announcements }: AnnouncementsTabProps) {
   const toggleRules = (id: string) => {
     setExpandedRules(prev => ({ ...prev, [id]: !prev[id] }));
   };
+
+  const toggleViolations = (id: string) => {
+    setExpandedViolations(prev => ({ ...prev, [id]: !prev[id] }));
+  };
+
+  const renderViolation = (violation: Violation) => (
+    <div key={violation.violated_clause} className="bg-white p-4 rounded mt-2 border border-red-200">
+      <div className="mb-2">
+        <strong className="text-red-800">Violated Act:</strong> 
+        <div className="text-black">
+        {violation.violated_clause}
+        </div>        
+      </div>
+      <div className="mb-2">
+        <strong className="text-red-800">Highlighted Section:</strong> 
+        <div className='text-black'>
+            page no: {violation.relevant_pageno}
+        </div>
+      </div>
+      <div>
+        <strong className="text-red-800">Rationale:</strong> 
+        <div className='text-black'>
+            {violation.rationale}
+        </div>
+      </div>
+    </div>
+  );
 
   return (
     <div className="space-y-4">
@@ -111,6 +139,21 @@ export function AnnouncementsTab({ announcements }: AnnouncementsTabProps) {
                   ))}
                 </div>
           ))}
+          {announcement.violations.length > 0 && (
+                <>
+                  <h4 
+                    className="font-bold mt-4 text-red-800 cursor-pointer"
+                    onClick={() => toggleViolations(announcement.id)}
+                  >
+                    Compliance Flags {expandedViolations[announcement.id] ? '▲' : '▼'}
+                  </h4>
+                  {expandedViolations[announcement.id] && (
+                    <div className="bg-red-50 p-4 rounded mt-2">
+                      {announcement.violations.map(renderViolation)}
+                    </div>
+                  )}
+                </>
+              )}
           </div>
         )}
       </div>

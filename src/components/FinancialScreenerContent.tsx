@@ -113,48 +113,15 @@ const hardcodedData = {
           sources: ['financials.interest_service_coverage'],
         }
       ],
-      urgentAlerts: [
-        {
-          id: '1',
-          name: 'High NPA Ratio',
-          triggeredAt: '2023-07-15 14:30:00',
-          description: 'Gross NPA Ratio increased to 12.7% in FY22-23, exceeding the threshold of 11%.',
-          priceImpact1D: -2.5,
-          priceImpact7D: -4.8,
-        },
-        {
-          id: '2',
-          name: 'High Related Party Transactions',
-          triggeredAt: '2023-07-16 09:00:00',
-          description: 'Related party transactions exceeded 75% of total revenue, indicating potential governance risks.',
-          priceImpact1D: -1.5,
-          priceImpact7D: -3.2,
-        },
-        {
-          id: '3',
-          name: 'Off-Balance Sheet Exposure',
-          triggeredAt: '2023-07-17 10:30:00',
-          description: 'Off-balance sheet items represent more than 75% of the company\'s net worth, posing significant financial risks.',
-          priceImpact1D: -2.0,
-          priceImpact7D: -3.5,
-        },
-        {
-          id: '4',
-          name: 'Negative Cash Flow',
-          triggeredAt: '2023-07-18 11:45:00',
-          description: 'The company reported negative cash flow from operations, indicating liquidity concerns.',
-          priceImpact1D: -1.8,
-          priceImpact7D: -3.0,
-        },
-        {
-          id: '5',
-          name: 'High Extraordinary Items',
-          triggeredAt: '2023-07-19 14:00:00',
-          description: 'Extraordinary items accounted for more than 20% of sales, raising questions about the consistency of financial performance.',
-          priceImpact1D: -2.3,
-          priceImpact7D: -4.0,
-        },
-      ],
+    urgentAlerts: [
+      {
+        id: '1',
+        name: 'Rule Triggered',
+        triggeredAt: '2023-07-15 14:30:00',
+        priceImpact1D: -2.5,
+        priceImpact7D: -4.8,
+      },
+    ],
     financials: [
       {
         id: '1',
@@ -238,7 +205,7 @@ const hardcodedData = {
           'FY21-22': '0%',
           'FY22-23': '0%',
         },
-        aiInsights: "Promoter holding has remained stable, indicating confidence in the company’s future performance.",
+        aiInsights: "Promoter holding has remained stable, indicating confidence in the company's future performance.",
       },
       {
         id: '8',
@@ -800,6 +767,93 @@ const hardcodedData = {
             ],
           },
         ],
+        violations: [
+          {
+              violated_clause: "Regulation 30 of SEBI (Listing Obligations and Disclosure Requirements) Regulations, 2015",
+              rationale: "The company update does not mention the detailed reasons for the re-appointment of directors, which is required under Regulation 30.",
+              relevant_pageno: "1"
+          },
+          {
+              violated_clause: "Regulation 30 (6) of SEBI (Listing Obligations and Disclosure Requirements) Regulations, 2015",
+              rationale: "The company update does not mention the disclosure of the letter of resignation along with detailed reasons for the resignation of the previous CFO, as required by the regulation.",
+              relevant_pageno: "127"
+          },
+          {
+              violated_clause: "380 (1) (c)",
+              rationale: "The company update does not provide a list of the directors and secretary of the company containing such particulars as may be prescribed.",
+              relevant_pageno: "223"
+          },
+          {
+              violated_clause: "(oa)",
+              rationale: "The audio recordings of the earnings call were uploaded on the stock exchange, but there is no mention of them being available on the company's website as required.",
+              relevant_pageno: "1"
+          },
+          {
+              violated_clause: "(8) Means of communication: (a) quarterly results; (b) newspapers wherein results normally published; (c) any website, where displayed; (d) whether it also displays official news releases; and (e) presentations made to institutional investors or to the analysts.",
+              rationale: "The company update does not mention the publication of quarterly results in newspapers, which is a requirement.",
+              relevant_pageno: "150"
+          },
+          {
+              violated_clause: "PART 'C' 5",
+              rationale: "The company has not provided any information on the useful life of the roads they have constructed, which is required for compliance.",
+              relevant_pageno: "277"
+          },
+          {
+              violated_clause: "SCHEDULE II (See section 123) USEFUL LIVES TO COMPUTE DEPRECIATION PART 'A' 1",
+              rationale: "The company update does not provide any information on the systematic allocation of the depreciable amount of assets over their useful life, nor does it mention the residual value of assets. This is a requirement under Schedule II.",
+              relevant_pageno: "275"
+          },
+          {
+              violated_clause: "PART III- GENERAL INSTRUCTIONS FOR THE PREPARATION OF CONSOLIDATED FINANCIAL STATEMENTS",
+              rationale: "The company update does not mention the allocation of profit or loss attributable to 'non-controlling interest' and to 'owners of the parent' in the statement of profit and loss, nor does it mention the presentation of 'total comprehensive income' for the period attributable to 'non-controlling interest' and to 'owners of the parent'.",
+              relevant_pageno: "336"
+          },
+          {
+              violated_clause: "(d)",
+              rationale: "The company update does not mention the submission of the annual audited standalone financial results along with the audit report and Statement on Impact of Audit Qualifications within sixty days from the end of the financial year.",
+              relevant_pageno: "55"
+          },
+          {
+              violated_clause: "SCHEDULE VI (See sections 55 and 186)",
+              rationale: "The company update mentions projects related to irrigation, which is compliant. However, there is no mention of compliance with other infrastructural projects such as water management, telecommunication, and industrial, commercial, and social development.",
+              relevant_pageno: "348"
+          },
+          {
+              violated_clause: "(3) The listed entity shall make disclosures of its financial information in its functional currency/reporting currency/national currency and the reporting currency shall be restricted to Sterling Pound/Euro/Yen/US Dollar.",
+              rationale: "The company update does not mention the reporting currency used for financial disclosures, which is a requirement.",
+              relevant_pageno: "145"
+          },
+          {
+              violated_clause: "56.Transfer and transmission of securities .- (1)",
+              rationale: "The company did not provide the figures for the awarding done by NHAI in kilometers for FY '24, which is required for transparency and proper record-keeping.",
+              relevant_pageno: "51"
+          },
+          {
+              violated_clause: "(1) The listed entity shall disclose the audit qualification(s) or any other audit reservation(s) along with the financial results in addition to the explanatory statement as to how audit qualification(s) or any other audit reservation(s) in respect of the audited accounts of the previous accounting year have been addressed in the financial results",
+              rationale: "The company update does not mention any disclosures regarding audit qualifications or reservations along with the financial results.",
+              relevant_pageno: "145"
+          },
+          {
+              violated_clause: "68\. (1)",
+              rationale: "The company update does not mention any disclosure to the stock exchange about the material events such as the receipt of projects worth INR 5,000 crores and the expected additional projects worth INR 8,000 to INR 10,000 crores.",
+              relevant_pageno: "11"
+          },
+          {
+              violated_clause: "Revenue shall be reviewed at the end of each financial year and projected revenue shall be adjusted to reflect such changes, if any, in the estimates as will lead to the actual collection at the end of the concession period.",
+              rationale: "The company update does not mention any review or adjustment of projected revenue at the end of the financial year, which is required to ensure that the actual collection aligns with the estimates by the end of the concession period.",
+              relevant_pageno: "276"
+          },
+          {
+              violated_clause: "378L(4)",
+              rationale: "The company has not ensured that all sums of money due to the inter-State co-operative society immediately before the date of transformation are deemed to be due to the Producer Company. The update mentions delays in payments and disbursements, which indicates non-compliance.",
+              relevant_pageno: "14"
+          },
+          {
+              violated_clause: "(4) Every company shall, unless prohibited by any provision of law or any order of Court, Tribunal or other authority, deliver the certificates of all securities allotted, transferred or transmitted- (a) within a period of two months from the date of incorporation, in the case of subscribers to the memorandum; (b) within a period of two months from the date of allotment, in the case of any allotment of any of its shares; (c) within a period of one month from the date of receipt by the company of the instrument of transfer under sub-section (1) or, as the case may be, of the intimation of transmission under sub- section (2), in the case of a transfer or transmission of securities; (d) within a period of six months from the date of allotment in the case of any allotment of debenture: Provided that where the securities are dealt with in a depository, the company shall intimate the details of allotment of securities to depository immediately on allotment of such securities.",
+              rationale: "The company update does not mention compliance with the requirement to deliver certificates of all securities within the specified timeframes.",
+              relevant_pageno: "51"
+          }
+        ]
       },
       {
         id: '2',
@@ -903,6 +957,13 @@ const hardcodedData = {
             ],
           },
         ],
+        violations: [
+            {
+              "violated_clause": "(2)",
+              "rationale": "The company update does not mention the dissemination of required information under a separate section on its website.",
+              "highlighted_section": "details of its business; terms and conditions of appointment of independent directors; composition of various committees of board of directors; code of conduct of board of directors and senior management personnel; details of establishment of vigil mechanism/ Whistle Blower policy; criteria of making payments to non-executive directors, if the same has not been disclosed in annual report; policy on dealing with related party transactions; policy for determining 'material' subsidiaries; details of familiarization programmes imparted to independent directors including the following details :- (i) number of programmes attended by independent directors (during the year and on a cumulative basis till date), (ii) number of hours spent by independent directors in such programmes (during the year and on cumulative basis till date), and (iii) other relevant details; the email address for grievance redressal and other relevant details; contact information of the designated officials of the listed entity who are responsible for assisting and handling investor grievances; financial information including: (i) notice of meeting of the board of directors where financial results shall be discussed; (ii) financial results, on conclusion of the meeting of the board of directors where the financial results were approved; (iii) complete copy of the annual report including balance sheet, profit and loss account, directors report, corporate governance report etc; shareholding pattern; details of agreements entered into with the media companies and/or their associates, etc."
+            }
+        ]      
       },
       {
         id: '3',
@@ -970,9 +1031,12 @@ const hardcodedData = {
             ],
           },
         ],
+        violations: [
+          
+        ]
       },
     ],
-};
+  };
 
 const hardcodedData1 = {
     rules: [
@@ -1229,6 +1293,7 @@ const hardcodedData1 = {
             ],
           },
         ],
+        violations: []
       },
       {
         id: '2',
@@ -1259,6 +1324,7 @@ const hardcodedData1 = {
             ],
           },
         ],
+        violations: []
       },
     ],
 };
